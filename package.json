@@ -1,0 +1,37 @@
+{
+  "name": "sendcloud-client",
+  "version": "0.0.1",
+  "description": "Node.js client for http://sendcloud.sohu.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js --timeout 15000 --require should-http"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "autod": "*",
+    "istanbul": "*",
+    "mocha": "*",
+    "pedding": "~1.0.0",
+    "should-http": "*",
+    "should": "~4.0.4"
+  },
+  "homepage": "https://github.com/rockdai/sendcloud-client",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rockdai/sendcloud-client.git",
+    "web": "https://github.com/rockdai/sendcloud-client"
+  },
+  "bugs": {
+    "url": "https://github.com/rockdai/sendcloud-client/issues",
+    "email": "rockdai@qq.com"
+  },
+  "keywords": [
+    "sendcloud", "mail"
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "author": "rockdai <rockdai@qq.com> (http://rockdai.com)",
+  "license": "MIT"
+}
