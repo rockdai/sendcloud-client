@@ -4,17 +4,22 @@
   "description": "Node.js client for http://sendcloud.sohu.com",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/*.test.js --timeout 15000 --require should-http"
+    "test": "mocha test/*.test.js --timeout 15000 --require should-http",
+    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 15000 test/*.test.js",
+    "autod": "autod -w --prefix '~'",
+    "cnpm": "npm install --registry=https://registry.npm.taobao.org"
   },
   "dependencies": {
+    "urllib": "~2.3.8",
+    "utility": "~1.4.0"
   },
   "devDependencies": {
     "autod": "*",
     "istanbul": "*",
     "mocha": "*",
     "pedding": "~1.0.0",
-    "should-http": "*",
-    "should": "~4.0.4"
+    "should": "~4.0.4",
+    "should-http": "*"
   },
   "homepage": "https://github.com/rockdai/sendcloud-client",
   "repository": {
@@ -30,7 +35,8 @@
     "sendcloud", "mail"
   ],
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.12.4",
+    "iojs": ">= 2.3.0"
   },
   "author": "rockdai <rockdai@qq.com> (http://rockdai.com)",
   "license": "MIT"
