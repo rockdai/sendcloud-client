@@ -1,4 +1,9 @@
-# sendcloud-client
+sendcloud-client
+=======
+
+[![Build Status](https://travis-ci.org/rockdai/sendcloud-client.svg?branch=master)](https://travis-ci.org/rockdai/sendcloud-client)
+[![Coverage Status](https://coveralls.io/repos/rockdai/sendcloud-client/badge.svg)](https://coveralls.io/r/rockdai/sendcloud-client)
+
 Node.js client for http://sendcloud.sohu.com
 
 ## Install
