@@ -7,7 +7,7 @@
 /**
  * Module dependencies.
  */
-const config = require('./config.json');
+const config = require('./config');
 const pedding = require('pedding');
 const should = require('should');
 const SendCloud = require('../');
