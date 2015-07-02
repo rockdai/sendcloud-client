@@ -11,15 +11,14 @@
     "cnpm": "npm install --registry=https://registry.npm.taobao.org"
   },
   "dependencies": {
-    "urllib": "~2.3.8",
-    "utility": "~1.4.0"
+    "urllib": "~2.3.8"
   },
   "devDependencies": {
     "autod": "*",
     "istanbul": "*",
     "mocha": "*",
     "pedding": "~1.0.0",
-    "should": "~4.0.4",
+    "should": "~7.0.1",
     "should-http": "*"
   },
   "homepage": "https://github.com/rockdai/sendcloud-client",
