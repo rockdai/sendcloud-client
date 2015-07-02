@@ -92,7 +92,7 @@ describe('client.test.js', function () {
     });
     it('should work', function (done) {
       let options = {
-        to: 'nobody@rockdai.com',
+        to: ['nobody@rockdai.com'],
         subject: '来自sendcloud-client的一封邮件！',
         html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
       };
