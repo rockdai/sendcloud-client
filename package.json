@@ -1,6 +1,6 @@
 {
   "name": "sendcloud-client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node.js client for http://sendcloud.sohu.com",
   "main": "index.js",
   "scripts": {
