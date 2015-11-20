@@ -30,22 +30,18 @@ describe('client.test.js', function () {
     before(function () {
       client = SendCloud.create(config);
     });
-    it('should callback with TypeError', function (done) {
-      done = pedding(3, done);
-      client.send(undefined, function (err) {
-        err.message.should.equal('required to, subject and html');
-        done();
-      });
-      client.send({}, function (err) {
-        err.message.should.equal('required to, subject and html');
-        done();
-      });
-      client.send({to: 'to', subject: 'subject'}, function (err) {
-        err.message.should.equal('required to, subject and html');
-        done();
-      });
+    it('should callback with TypeError', function () {
+      (function () {
+        client.send(undefined);
+      }).should.throw('required to, subject and html');
+      (function () {
+        client.send({});
+      }).should.throw('required to, subject and html');
+      (function () {
+        client.send({to: 'to', subject: 'subject'});
+      }).should.throw('required to, subject and html');
     });
-    it('should error when invalid config', function (done) {
+    it('should error when invalid config', function () {
       let client = SendCloud.create({
         from: 'service@sendcloud.im',
         apiUser: 'invalid_api_user',
@@ -56,12 +52,10 @@ describe('client.test.js', function () {
         subject: '来自sendcloud-client的一封邮件！',
         html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
       };
-      client.send(options, function (err, result) {
-        result.message.should.equal('error');
-        done(err);
-      });
+      let res = client.send(options);
+      res.message.should.equal('error');
     });
-    it('should error when request error', function (done) {
+    it('should error when request error', function () {
       let client = SendCloud.create({
         from: config.from,
         apiUser: config.apiUser,
@@ -73,33 +67,30 @@ describe('client.test.js', function () {
         subject: '来自sendcloud-client的一封邮件！',
         html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
       };
-      client.send(options, function (err, result) {
-        err.should.be.an.Error;
-        err.name.should.equal('SendCloudRequestError');
-        done();
-      });
+      try {
+        client.send(options);
+      } catch (ex) {
+        ex.should.be.an.Error;
+        ex.name.should.equal('SendCloudRequestError');
+      }
     });
-    it('should error when mail content sample validate not match', function (done) {
+    it('should error when mail content sample validate not match', function () {
       let options = {
         to: 'nobody@rockdai.com',
         subject: 'unittest',
         html: 'unittest mail body'
       };
-      client.send(options, function (err, result) {
-        result.message.should.equal('error');
-        done(err);
-      });
+      let res = client.send(options);
+      res.message.should.equal('error');
     });
-    it('should work', function (done) {
+    it('should work', function () {
       let options = {
         to: ['nobody@rockdai.com'],
         subject: '来自sendcloud-client的一封邮件！',
         html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
       };
-      client.send(options, function (err, result) {
-        result.message.should.equal('success');
-        done(err);
-      });
+      let res = client.send(options);
+      res.message.should.equal('success');
     });
   });
 });
