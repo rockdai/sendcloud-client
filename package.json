@@ -1,21 +1,22 @@
 {
   "name": "sendcloud-client",
-  "version": "0.1.1",
+  "version": "0.3.0",
   "description": "Node.js client for http://sendcloud.sohu.com",
-  "main": "index.js",
+  "main": "./lib/client.js",
   "scripts": {
-    "test": "mocha test/*.test.js --timeout 15000 --require should",
-    "test-cov": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --check-leaks -t 15000 test/*.test.js",
-    "test-travis": "node --harmony node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --check-leaks -t 15000 test/*.test.js",
+    "test": "mocha --timeout 15000 test/*.test.js",
+    "test-cov": "node node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --check-leaks --timeout 15000 test/*.test.js",
+    "test-travis": "node node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --check-leaks --timeout 15000 test/*.test.js",
     "cnpm": "npm install --registry=https://registry.npm.taobao.org"
   },
   "dependencies": {
-    "urllib-sync": "~1.1.2"
+    "humanize-ms": "~1.2.0",
+    "urllib": "~2.19.0"
   },
   "devDependencies": {
-    "istanbul": "~0.4.0",
-    "mocha": "~2.3.4",
-    "should": "~7.1.1"
+    "co": "~4.6.0",
+    "istanbul": "~0.4.5",
+    "mocha": "~3.2.0"
   },
   "homepage": "https://github.com/rockdai/sendcloud-client",
   "repository": {
@@ -28,10 +29,11 @@
     "email": "rockdai@qq.com"
   },
   "keywords": [
-    "sendcloud", "mail"
+    "sendcloud",
+    "mail"
   ],
   "engines": {
-    "node": ">= 4.2.1"
+    "node": ">= 4.4.0"
   },
   "author": "rockdai <rockdai@qq.com> (http://rockdai.com)",
   "license": "MIT"

@@ -8,88 +8,99 @@
  * Module dependencies.
  */
 const config = require('./config');
-const should = require('should');
+const assert = require('assert');
+const co = require('co');
 const SendCloud = require('../');
 
-describe('client.test.js', function () {
-  it('should throw TypeError', function () {
-    (function () {
-      SendCloud.create();
-    }).should.throw('required apiUser, apiKey and from');
-    (function () {
-      SendCloud.create({});
-    }).should.throw('required apiUser, apiKey and from');
-    (function () {
-      SendCloud.create({apiUser: 'apiUser', apiKey: 'apiKey'});
-    }).should.throw('required apiUser, apiKey and from');
+describe('test/client.test.js', function() {
+
+  describe('#send', function() {
+    it('should return false when invalid config', function(done) {
+      co(function* () {
+        const client = new SendCloud({
+          from: 'service@sendcloud.im',
+          apiUser: 'invalid_api_user',
+          apiKey: 'invalid_api_key'
+        });
+        const options = {
+          to: 'nobody@rockdai.com',
+          subject: '[sendcloud-client] 测试发送',
+          html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
+        };
+        const res = yield client.send(options);
+        assert(res.result === false);
+        assert(res.statusCode === 40005);
+        done();
+      });
+    });
+    it('should throw error when request error', function(done) {
+      co(function* () {
+        const client = new SendCloud({
+          from: config.from,
+          apiUser: config.apiUser,
+          apiKey: config.apiKey,
+          timeout: 1
+        });
+        const options = {
+          to: 'nobody@rockdai.com',
+          subject: '[sendcloud-client] 测试发送',
+          html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
+        };
+        yield client.send(options);
+      }).catch(err => {
+        assert(err.name === 'ConnectionTimeoutError');
+        done();
+      });
+    });
+    it('should work', function(done) {
+      co(function* () {
+        const client = new SendCloud(config);
+        const options = {
+          to: [ 'rockdai@qq.com' ],
+          subject: '[sendcloud-client] 测试发送',
+          html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
+        };
+        const res = yield client.send(options);
+        assert(res.result === true);
+        assert(res.statusCode === 200);
+        done();
+      });
+    });
   });
 
-  describe('send()', function () {
-    let client;
-    before(function () {
-      client = SendCloud.create(config);
-    });
-    it('should callback with TypeError', function () {
-      (function () {
-        client.send(undefined);
-      }).should.throw('required to, subject and html');
-      (function () {
-        client.send({});
-      }).should.throw('required to, subject and html');
-      (function () {
-        client.send({to: 'to', subject: 'subject'});
-      }).should.throw('required to, subject and html');
-    });
-    it('should error when invalid config', function () {
-      let client = SendCloud.create({
-        from: 'service@sendcloud.im',
-        apiUser: 'invalid_api_user',
-        apiKey: 'invalid_api_key'
+  describe('#sendTemplate', function() {
+    it('should handle mailing address', function(done) {
+      co(function* () {
+        const client = new SendCloud(config);
+        const options = {
+          useAddressList: true,
+          to: 'nobody@rockdai.com',
+          subject: '[sendcloud-client] 测试发送模板',
+        };
+        const res = yield client.sendTemplate(options);
+        assert(res.result === false);
+        assert(res.statusCode === 40863);
+        done();
       });
-      let options = {
-        to: 'nobody@rockdai.com',
-        subject: '来自sendcloud-client的一封邮件！',
-        html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
-      };
-      let res = client.send(options);
-      res.message.should.equal('error');
     });
-    it('should error when request error', function () {
-      let client = SendCloud.create({
-        from: config.from,
-        apiUser: config.apiUser,
-        apiKey: config.apiKey,
-        timeout: 1
+    it('should work', function(done) {
+      co(function* () {
+        const client = new SendCloud(config);
+        const options = {
+          subject: '[sendcloud-client] 测试发送模板',
+          templateInvokeName: 'birdman_verify',
+          xsmtpapi: {
+            to: [ 'nobody@rockdai.com', 'nobody2@rockdai.com' ],
+            sub: {
+              '%link_verify%': [ 'link0', 'link1' ],
+            },
+          },
+        };
+        const res = yield client.sendTemplate(options);
+        assert(res.result === true);
+        assert(res.statusCode === 200);
+        done();
       });
-      let options = {
-        to: 'nobody@rockdai.com',
-        subject: '来自sendcloud-client的一封邮件！',
-        html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
-      };
-      try {
-        client.send(options);
-      } catch (ex) {
-        ex.should.be.an.Error;
-        ex.name.should.equal('SendCloudRequestError');
-      }
-    });
-    it('should error when mail content sample validate not match', function () {
-      let options = {
-        to: 'nobody@rockdai.com',
-        subject: 'unittest',
-        html: 'unittest mail body'
-      };
-      let res = client.send(options);
-      res.message.should.equal('error');
-    });
-    it('should work', function () {
-      let options = {
-        to: ['nobody@rockdai.com'],
-        subject: '来自sendcloud-client的一封邮件！',
-        html: '太棒了！成功的从SendCloud发送了一封测试邮件！'
-      };
-      let res = client.send(options);
-      res.message.should.equal('success');
     });
   });
 });
