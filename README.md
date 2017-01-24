@@ -19,9 +19,9 @@ $ npm install sendcloud-client
 ### Init
 
 ```js
-let SendCloud = require('sendcloud-client');
+const SendCloud = require('sendcloud-client');
 
-let client = SendCloud.create({
+const client = new SendCloud({
   from: 'mail from',
   apiUser: 'your api user',
   apiKey: 'your api key'
@@ -32,21 +32,23 @@ let client = SendCloud.create({
 
 ```js
 // send mail
-let options = {
-  to: ['baijuyi@gmail.com', 'lishangyin@qq.com'],
+const options = {
+  to: [ 'baijuyi@gmail.com', 'lishangyin@qq.com' ],
   subject: '晚上来我家吃饭吧！',
   html: '老婆做了东坡肉，与大家一起分享！'
 };
 
-let res = client.send(options);
+const res = yield client.send(options);
 console.log(res);
 // {
-//     "message":"success",
-//     "email_id_list":[
-//         "1426053463570_15_32087_2059.sc-10_10_127_105-inbound0$ben@ifaxin.com",
-//         "1426053463570_15_32087_2059.sc-10_10_127_105-inbound1$joe@ifaxin.com",
-//         "1426053463570_15_32087_2059.sc-10_10_127_105-inbound2$bida@ifaxin.com",
-//         "1426053463570_15_32087_2059.sc-10_10_127_105-inbound3$lianzimi@ifaxin.com"
-//     ]
+//    result: true,
+//    statusCode: 200,
+//    message: '请求成功',
+//    info: {
+//      emailIdList: [
+//        '1426053463570_15_32087_2059.sc-10_10_127_105-inbound0$baijuyi@gmail.com',
+//        '1426053463570_15_32087_2059.sc-10_10_127_105-inbound3$lishangyin@qq.com'
+//      ]
+//    }
 // }
 ```

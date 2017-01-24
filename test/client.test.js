@@ -31,7 +31,7 @@ describe('test/client.test.js', function() {
         assert(res.result === false);
         assert(res.statusCode === 40005);
         done();
-      });
+      }).catch(done);
     });
     it('should throw error when request error', function(done) {
       co(function* () {
@@ -64,7 +64,7 @@ describe('test/client.test.js', function() {
         assert(res.result === true);
         assert(res.statusCode === 200);
         done();
-      });
+      }).catch(done);
     });
   });
 
@@ -81,7 +81,7 @@ describe('test/client.test.js', function() {
         assert(res.result === false);
         assert(res.statusCode === 40863);
         done();
-      });
+      }).catch(done);
     });
     it('should work', function(done) {
       co(function* () {
@@ -100,7 +100,7 @@ describe('test/client.test.js', function() {
         assert(res.result === true);
         assert(res.statusCode === 200);
         done();
-      });
+      }).catch(done);
     });
   });
 });
